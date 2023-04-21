@@ -1,0 +1,242 @@
+[
+    {
+        "id": 92,
+        "height": 5,
+        "width": 10,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 3
+    },
+    {
+        "id": 52,
+        "height": 8,
+        "width": 8,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 4
+    },
+    {
+        "id": 74,
+        "height": 7,
+        "width": 4,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 6
+    },
+    {
+        "id": 84,
+        "height": 0,
+        "width": 0,
+        "diameter": 5,
+        "Shape": "Circle",
+        "Count ": 1
+    },
+    {
+        "id": 49,
+        "height": 10,
+        "width": 4,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 35
+    },
+    {
+        "id": 3,
+        "height": 11,
+        "width": 2,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 2
+    },
+    {
+        "id": 68,
+        "height": 0,
+        "width": 0,
+        "diameter": 10,
+        "Shape": "Circle",
+        "Count ": 4
+    },
+    {
+        "id": 1,
+        "height": 1,
+        "width": 1,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 26
+    },
+    {
+        "id": 39,
+        "height": 10,
+        "width": 9,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 6
+    },
+    {
+        "id": 91,
+        "height": 4,
+        "width": 4,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 4
+    },
+    {
+        "id": 30,
+        "height": 1,
+        "width": 6,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 19
+    },
+    {
+        "id": 51,
+        "height": 0,
+        "width": 0,
+        "diameter": 2,
+        "Shape": "Circle",
+        "Count ": 2
+    },
+    {
+        "id": 20,
+        "height": 8,
+        "width": 8,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 20
+    },
+    {
+        "id": 6,
+        "height": 0,
+        "width": 0,
+        "diameter": 15,
+        "Shape": "Circle",
+        "Count ": 55
+    },
+    {
+        "id": 76,
+        "height": 5,
+        "width": 3,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 2
+    },
+    {
+        "id": 73,
+        "height": 0,
+        "width": 0,
+        "diameter": 8,
+        "Shape": "Circle",
+        "Count ": 3
+    },
+    {
+        "id": 40,
+        "height": 6,
+        "width": 1,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 6
+    },
+    {
+        "id": 83,
+        "height": 7,
+        "width": 4,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 2
+    },
+    {
+        "id": 26,
+        "height": 9,
+        "width": 10,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 1
+    },
+    {
+        "id": 67,
+        "height": 2,
+        "width": 5,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 40
+    },
+    {
+        "id": 66,
+        "height": 8,
+        "width": 3,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 2
+    },
+    {
+        "id": 36,
+        "height": 6,
+        "width": 7,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 1
+    },
+    {
+        "id": 63,
+        "height": 0,
+        "width": 0,
+        "diameter": 7,
+        "Shape": "Circle",
+        "Count ": 3
+    },
+    {
+        "id": 37,
+        "height": 1,
+        "width": 9,
+        "diameter": 0,
+        "Shape": "Rectangle",
+        "Count ": 5
+    },
+    {
+        "id": 93,
+        "height": 4,
+        "width": 10,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 6
+    },
+    {
+        "id": 64,
+        "height": 5,
+        "width": 4,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 4
+    },
+    {
+        "id": 80,
+        "height": 2,
+        "width": 3,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 2
+    },
+    {
+        "id": 11,
+        "height": 3,
+        "width": 5,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 8
+    },
+    {
+        "id": 10,
+        "height": 7,
+        "width": 8,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 6
+    },
+    {
+        "id": 43,
+        "height": 9,
+        "width": 9,
+        "diameter": 0,
+        "Shape": "Triangle",
+        "Count ": 4
+    }
+]
