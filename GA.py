@@ -25,8 +25,8 @@ shapes.append({'type': 'triangle', 'base': tri_base,
               'height': tri_height, 'width': tri_base})
 
 # Step 2: Define the genetic algorithm parameters
-POPULATION_SIZE = 4
-NUM_GENERATIONS = 50
+POPULATION_SIZE = 10
+NUM_GENERATIONS = 1
 MUTATION_RATE = 0.1
 CROSSOVER_RATE = 0.8  # or any value between 0 and 1 that makes sense for your simulation
 SHEET_WIDTH = 15
@@ -42,9 +42,7 @@ def fitness(chromosome, shapes):
         used_space += shape['width'] * shape['height']
     total_space = SHEET_WIDTH * SHEET_HEIGHT  # Assuming a 100x100 container
     wasted_space = total_space - used_space
-    print("wasted_space", wasted_space)
     temp_mask = np.zeros((SHEET_HEIGHT, SHEET_WIDTH), dtype=np.uint8)  # test code
-    print(chromosome)
     for shape in chromosome:
         x, y = shape['position']
         w, h = shape['width'], shape['height']
@@ -116,16 +114,25 @@ def mutate(chromosome):
     # Perform mutation operation on the chromosome
     mutation_point1 = np.random.randint(len(chromosome))
     mutation_point2 = np.random.randint(len(chromosome))
+    print("chromosome1", chromosome)
+    print("mutation_point1", mutation_point1)
+    print("mutation_point2", mutation_point2)
     chromosome[mutation_point1], chromosome[mutation_point2] = chromosome[mutation_point2], chromosome[mutation_point1]
+    print("chromosome2", chromosome)
     for i in range(len(chromosome)):
-        if random.random() < MUTATION_RATE:
+        rand = random.random()
+        print(rand)
+        if rand < MUTATION_RATE:
             chromosome[i]['position'] = (random.uniform(
-                0, 1 - chromosome[i]['width']), random.uniform(0, 1 - chromosome[i]['height']))
+                0, SHEET_WIDTH - chromosome[i]['width']), random.uniform(0, SHEET_HEIGHT - chromosome[i]['height']))
             chromosome.sort(key=lambda x: x['position'][1])
+    print("chromosome3", chromosome)
     return chromosome
 
 def crossover(parent1, parent2):
     # Perform crossover operation on the two parents
+    print("parent1", parent1)
+    print("parent2", parent2)
     child1 = np.zeros_like(parent1)
     child2 = np.zeros_like(parent2)
     crossover_point = np.random.randint(len(parent1))
@@ -133,6 +140,8 @@ def crossover(parent1, parent2):
     child1[crossover_point:] = parent2[crossover_point:]
     child2[:crossover_point] = parent2[:crossover_point]
     child2[crossover_point:] = parent1[crossover_point:]
+    # print("child1", child1)
+    # print("child2", child2)
     offspring1 = []
     offspring2 = []
 
@@ -146,7 +155,7 @@ def crossover(parent1, parent2):
 
     return [offspring1, offspring2]
 
-    return child1, child2
+    # return child1, child2
 
 def select_parents(population):
     fitness_scores = evaluate_fitness(population)
@@ -154,6 +163,7 @@ def select_parents(population):
     parent2_idx = roulette_wheel_selection(fitness_scores)
     while parent2_idx == parent1_idx:
         parent2_idx = roulette_wheel_selection(fitness_scores)
+    print(parent1_idx, parent2_idx)
     return population[parent1_idx], population[parent2_idx]
 
 def evaluate_fitness(population):
@@ -162,11 +172,9 @@ def evaluate_fitness(population):
     Returns a list of fitness scores, one for each individual.
     """
     fitness_scores = []
-    print("population", population)
     for individual in population:
-        print("individual", individual)
         score = fitness(individual, shapes)
-        print(score)
+        # print(score)
         fitness_scores.append(score)
     return fitness_scores
 
@@ -175,6 +183,7 @@ def roulette_wheel_selection(fitness_scores):
     total_fitness = sum(fitness_scores)
     selection_probabilities = [fitness_score /
                                total_fitness for fitness_score in fitness_scores]
+    print("selection_probabilities", selection_probabilities)
     return np.random.choice(range(len(fitness_scores)), p=selection_probabilities)
 
 def evolve(population, fitness_func, mutation_rate):
@@ -191,39 +200,41 @@ def evolve(population, fitness_func, mutation_rate):
         new_population = []
         for i in range(POPULATION_SIZE // 2):
             parent1, parent2 = select_parents(population)
-            # new_population.extend(crossover(parent1, parent2))
-        #
-        # # Mutate offspring
-        # for i in range(len(new_population)):
-        #     new_population[i] = mutate(new_population[i])
-        #
-        # # Evaluate fitness of offspring
-        # fitness_scores = evaluate_fitness(new_population)
-        #
-        # # Select next generation
-        # population = []
-        # for i in range(POPULATION_SIZE):
-        #     idx = roulette_wheel_selection(fitness_scores)
-        #     population.append(new_population[idx])
-        #     del fitness_scores[idx]
-        #
-        # # Print fitness of best chromosome in this generation
-        # best_fitness = evaluate_fitness([population[0]])[0]
-        # print(f"Best fitness: {best_fitness}\n")
+            child1, child2 = crossover(parent1, parent2)
+            new_population.extend(crossover(parent1, parent2))
+
+        print("new_population", new_population)
+        # Mutate offspring
+        for i in range(len(new_population)):
+            new_population[i] = mutate(new_population[i])
+
+        # Evaluate fitness of offspring
+        fitness_scores = evaluate_fitness(new_population)
+
+        # Select next generation
+        population = []
+        for i in range(POPULATION_SIZE):
+            idx = roulette_wheel_selection(fitness_scores)
+            population.append(new_population[idx])
+            del fitness_scores[idx]
+
+        # Print fitness of best chromosome in this generation
+        best_fitness = evaluate_fitness([population[0]])[0]
+        print(f"Best fitness: {best_fitness}\n")
 
     # Return the final population
     return population
 
 # Step 5: Run the genetic algorithm
 population = initialize_population(POPULATION_SIZE, shapes)
-evaluate_fitness(population)
+# evaluate_fitness(population)
 final_population = evolve(
     population, lambda x: fitness(x, shapes), MUTATION_RATE)
 
 # Step 6: Display the best nesting as an image
 # best_chromosome = max(final_population, key=lambda x: fitness(x, shapes))
 image = np.zeros((SHEET_HEIGHT, SHEET_WIDTH, 3), dtype=np.uint8)
-print("Height: ", image.shape[0], ", Width: ", image.shape[1])
+# print("Height: ", image.shape[0], ", Width: ", image.shape[1])
 temp_mask = np.zeros(
     (image.shape[0], image.shape[1]), dtype=np.uint8)  # test code
 colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
@@ -286,7 +297,7 @@ plt.xlim(0, SHEET_WIDTH)  # test code
 plt.ylim(0, SHEET_HEIGHT)  # test code
 plt.grid()  # test code
 plt.gca().invert_yaxis()  # test code
-plt.show()  # test code
+# plt.show()  # test code
 
 # np.savetxt("output_image.txt", temp_mask, fmt='%d')  # test code
 # pass
