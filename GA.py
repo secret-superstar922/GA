@@ -4,42 +4,46 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import matplotlib.patches as patches
 import copy
+import pickle
+import ast
 # Step 1: Define the shapes to be nested
-shapes = []
-
-# Add a rectangle
-rect_width = 5
-rect_height = 10
-shapes.append({'type': 'rect', 'width': rect_width, 'height': rect_height})
-
-# Add a circle
-circle_diameter = 7
-circle_radius = circle_diameter / 2
-shapes.append({'type': 'circle', 'width': circle_diameter,
-              'height': circle_diameter, 'radius': circle_radius})
-
-# Add a triangle
-tri_base = 8
-tri_height = 4
-shapes.append({'type': 'triangle', 'base': tri_base,
-              'height': tri_height, 'width': tri_base})
+# shapes = []
+#
+# # Add a rectangle
+# rect_width = 5
+# rect_height = 10
+# shapes.append({'type': 'rect', 'width': rect_width, 'height': rect_height})
+#
+# # Add a circle
+# circle_diameter = 7
+# circle_radius = circle_diameter / 2
+# shapes.append({'type': 'circle', 'width': circle_diameter,
+#               'height': circle_diameter, 'radius': circle_radius})
+#
+# # Add a triangle
+# tri_base = 8
+# tri_height = 4
+# shapes.append({'type': 'triangle', 'base': tri_base,
+#               'height': tri_height, 'width': tri_base})
 
 # Step 2: Define the genetic algorithm parameters
 POPULATION_SIZE = 40
 NUM_GENERATIONS = 30
 MUTATION_RATE = 0.4
 CROSSOVER_RATE = 0.8  # or any value between 0 and 1 that makes sense for your simulation
-SHEET_WIDTH = 20
-SHEET_HEIGHT = 20
+SHEET_WIDTH = 100
+SHEET_HEIGHT = 100
 DELTA_X = 5
 DELTA_Y = 5
 ELITE_SIZE = POPULATION_SIZE * 0.1 // 2 * 2
 
-# def load_shapes():
-
+def load_shapes():
+    shape_list = []
+    with open("shapes.txt") as f:
+        shape_list = ast.literal_eval(f.read())
+    return shape_list
 
 # Step 3: Define the fitness function
-
 def fitness(chromosome, shapes, flag = False):
     # Calculate the wasted space in the nesting arrangement
     fitness_value = 0
@@ -101,15 +105,17 @@ def initialize_population(pop_size, shapes):
     for i in range(pop_size):
         chromosome = []
         for shape in shapes:
-            # Randomly generate a position for the shape
-            if 'width' in shape:
-                x = random.randint(0, SHEET_WIDTH - shape['width'])
-                y = random.randint(0, SHEET_HEIGHT - shape['height'])
-                # Add the shape and its position to the chromosome
-                chromosome.append(
-                    {'type': shape['type'], 'width': shape['width'], 'height': shape['height'], 'position': (x, y)})
-            else:
-                raise KeyError("Missing 'width' key in shape dictionary")
+            for j in range(shape['Count']):
+                # Randomly generate a position for the shape
+                if 'width' in shape:
+                    x = random.randint(0, SHEET_WIDTH - shape['width'])
+                    y = random.randint(0, SHEET_HEIGHT - shape['height'])
+                    # Add the shape and its position to the chromosome
+                    chromosome.append(
+                        {'type': shape['Shape'], 'width': shape['width'], 'height': shape['height'],
+                         'position': (x, y)})
+                else:
+                    raise KeyError("Missing 'width' key in shape dictionary")
         print(chromosome)
         population.append(chromosome)
     return population
@@ -313,17 +319,17 @@ def display(chromosome):
     plt.show()  # test code
 
 # Step 5: Run the genetic algorithm
+shapes = load_shapes()
 population = initialize_population(POPULATION_SIZE, shapes)
-init_best_chromosome = max(population, key=lambda x: fitness(x, shapes))
+# init_best_chromosome = max(population, key=lambda x: fitness(x, shapes))
+#
+# # evaluate_fitness(population)
+# final_population, final_best_chromosome = evolve(
+#     population, lambda x: fitness(x, shapes), MUTATION_RATE)
+#
+# display(init_best_chromosome)
+# display(final_best_chromosome)
 
-# evaluate_fitness(population)
-final_population, final_best_chromosome = evolve(
-    population, lambda x: fitness(x, shapes), MUTATION_RATE)
-# print(final_population)
-# Step 6: Display the best nesting as an image
-# best_chromosome = max(final_population, key=lambda x: fitness(x, shapes))
-display(init_best_chromosome)
-display(final_best_chromosome)
 # np.savetxt("output_image.txt", temp_mask, fmt='%d')  # test code
 # pass
 
